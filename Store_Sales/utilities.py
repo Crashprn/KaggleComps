@@ -1,6 +1,7 @@
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 import numpy as np
 import pandas as pd
+import calendar
 
 
 def grouped_apply_agg(df, group, cols, names, functions):
@@ -44,4 +45,11 @@ def create_scaled_data_by_col(df, min_max_cols, normalize_cols, y_cols, col_name
     return (db, min_max_scaler, normalize_scaler, y_scaler)
 
 def rmsle(y_true, y_pred):
-    return np.sqrt(np.mean(np.square(np.log0p(y_true) - np.log1p(y_pred))))
+    return np.sqrt(np.mean(np.square(np.log1p(y_true) - np.log1p(y_pred))))
+
+
+def is_payday(date):
+    month_range = calendar.monthrange(date.year, date.month)
+    last_day = month_range[1]
+    return date.day == 15 or date.day == last_day
+
